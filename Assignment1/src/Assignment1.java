@@ -19,8 +19,10 @@ public class Assignment1 {
 			3.222288922,3.43265852,3.823261752,3.184157161,3.933609629
 		};
 		
+		
 		System.out.println("Please enter in the size of your filter array.");
 		int filterArraySize = input.nextInt();
+		
 		
 		if(filterArraySize % 2 != 0 && filterArraySize > 0)
 		{
@@ -28,34 +30,47 @@ public class Assignment1 {
 			//Create array with user defined size.
 			double[] filterArray = new double[filterArraySize];
 			int inputCounter = 0;
-			int inputValue = 0;
+			double inputValue = 0;
 			
 	
 			//init array with user defined values.
 			while(inputCounter < filterArraySize)
 			{
 				System.out.print("Input value: ");
-				inputValue = input.nextInt();
+				inputValue = input.nextDouble();
 				filterArray[inputCounter] = inputValue;
 				inputCounter++;
 			}
+			
+			double[] filterAppliedSignal = new double[idealArray.length];
+			filterAppliedSignal = filterSignal(noisyArray, filterArray);
+			for(int i = 0; i < filterAppliedSignal.length; i++){
+				System.out.println(filterAppliedSignal[i]);
+			}
+			
 		}else{
 			System.out.println("Incorrect value for array initilization.");
 		}	
+		
 	}
 	
 	public static double[] filterSignal(double values[], double filter[])
 	{
+		double[] filterAppliedValues = new double[values.length];
+		int filterSizeHalf = filter.length / 2;
+		for(int i = filterSizeHalf; i < values.length - filterSizeHalf; i++){
 		
-		double[] valuesAfterFilter = new double[values.length];
-		for(int i = 0; i < valuesAfterFilter.length; i++)
-		{
-			if(i == 0 || i == valuesAfterFilter.length - 1)
+			int startingIndex = i - filterSizeHalf;
+			for(int j = 0; j < filter.length; j++)
 			{
-				valuesAfterFilter[i] = 0;
+				filterAppliedValues[i] += (values[startingIndex] * filter[j]);
+				System.out.println("Target Index:" + i + "Neighbor: " + startingIndex);
+				startingIndex++;
 			}
 		}
-		return filter;
+		
+		return filterAppliedValues;
 	}
+
 
 }
