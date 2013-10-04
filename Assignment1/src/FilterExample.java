@@ -1,7 +1,16 @@
 import java.util.Scanner;
+/*
+ * Filtering a noisy signal.
+ * A program made by: Thomas Hocking.
+ * CS 251
+ * Assignment #1.
+ * 
+ * Purpose of program is to compute and evaluate filters being applied to signals. 
+ * Program has a noisy signal array by default, and also has an array for ideal results.
+ * Accepts input for creating an odd sized filter of size less than noisyArray length.
+ */
 
-
-public class Assignment1 {
+public class FilterExample {
 	
 	public static void main(String[] args)
 	{
@@ -42,14 +51,33 @@ public class Assignment1 {
 				inputCounter++;
 			}
 			
+			//apply filter.
 			double[] filterAppliedSignal = new double[idealArray.length];
 			filterAppliedSignal = filterSignal(noisyArray, filterArray);
+			System.out.println("The values inside the filtered result array are:");
 			for(int i = 0; i < filterAppliedSignal.length; i++){
-				System.out.println(filterAppliedSignal[i]);
+				if(filterAppliedSignal[i] != 0){
+					System.out.println(filterAppliedSignal[i]);
+				}
 			}
 			
+			//compute absolute difference.
+			double sumOfAbsDifference = 0.0;
+			int numOfFilteredVals = 0;
+			for(int i = 0; i < filterAppliedSignal.length; i++)
+			{
+				if(filterAppliedSignal[i] != 0)
+				{
+					sumOfAbsDifference += Math.abs(filterAppliedSignal[i] - idealArray[i]);
+					numOfFilteredVals++;
+				}
+			}
+			sumOfAbsDifference /= numOfFilteredVals;
+			
+			System.out.println("The average absolute value is: " + sumOfAbsDifference);
+			
 		}else{
-			System.out.println("Incorrect value for array initilization.");
+			System.out.println("Incorrect value for filter array initilization.");
 		}	
 		
 	}
@@ -58,13 +86,15 @@ public class Assignment1 {
 	{
 		double[] filterAppliedValues = new double[values.length];
 		int filterSizeHalf = filter.length / 2;
-		for(int i = filterSizeHalf; i < values.length - filterSizeHalf; i++){
 		
+		//loop through indices that can have filter applied to them.
+		for(int i = filterSizeHalf; i < values.length - filterSizeHalf; i++)
+		{
 			int startingIndex = i - filterSizeHalf;
+			//multiply contents of neighboring indices to filter, then compute the sum.
 			for(int j = 0; j < filter.length; j++)
 			{
 				filterAppliedValues[i] += (values[startingIndex] * filter[j]);
-				System.out.println("Target Index:" + i + "Neighbor: " + startingIndex);
 				startingIndex++;
 			}
 		}
