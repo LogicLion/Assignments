@@ -11,8 +11,8 @@ public class RouletteTestDriver {
 		System.out.print("Enter number of spins per test: ");
 		int numOfSpins = input.nextInt();
 		
-		//RouletteTest test = new RouletteTest(numOfSpins);
-		//System.out.println(test.getStdDev());
+		RouletteTest test = new RouletteTest(numOfSpins);
+		System.out.println(test.getStdDev());
 		
 		RouletteTest[] rouletteTests = new RouletteTest[numOfTests];
 		
@@ -29,7 +29,8 @@ public class RouletteTestDriver {
 		sortRouletteTest(rouletteTests);
 		System.out.println("");
 		printTestSummary(rouletteTests);
-
+	
+		
 	}
 	
 	private static void sortRouletteTest(RouletteTest[] rTests){
