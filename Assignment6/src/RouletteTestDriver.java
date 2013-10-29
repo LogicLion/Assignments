@@ -1,18 +1,25 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/*
+ * RouletteTest Driver class
+ * Author: Thomas Hocking
+ * CS 251
+ * Assignment #6.
+ * 
+ * RouletteTest Driver class for simulating a collection of RouletteTest Classes.
+ * Provides methods such as printing lowest/highest standard deviation values, and can sort them as well.
+ */
 
 public class RouletteTestDriver {
 	public static void main(String[] args){
+		
 		Scanner input = new Scanner(System.in);
 		System.out.println("Welcome to the Roulette Simulator!");
 		System.out.print("Enter number of roulette tests to run: ");
 		int numOfTests = input.nextInt();
 		System.out.print("Enter number of spins per test: ");
 		int numOfSpins = input.nextInt();
-		
-		//RouletteTest test = new RouletteTest(numOfSpins);
-		//System.out.println(test.getStdDev());
 		
 		RouletteTest[] rouletteTests = new RouletteTest[numOfTests];
 		
@@ -26,23 +33,30 @@ public class RouletteTestDriver {
 		System.out.print("Most Variable Test: ");
 		printTestSummary(rouletteTests[getTestWithHighestStdDiv(rouletteTests)]);
 		System.out.println();
-		sortRouletteTest(rouletteTests);
+		rouletteTests = sortRouletteTest(rouletteTests);
 		System.out.println("");
 		printTestSummary(rouletteTests);
-
+		
 	}
 	
-	private static void sortRouletteTest(RouletteTest[] rTests){
-		double[] listOfStdDivs = new double[rTests.length];
-		for(int i = 0; i < rTests.length; i++){
-			listOfStdDivs[i] = rTests[i].getStdDev();
+	private static RouletteTest[] sortRouletteTest(RouletteTest[] rTests){
+		RouletteTest tempVal;
+		for(int i = 1; i < rTests.length; i++){
+			for(int j = i; j > 0; j--){
+				if(rTests[j].getStdDev() < rTests[j-1].getStdDev()){
+					tempVal = rTests[j];
+					rTests[j] = rTests[j-1];
+					rTests[j-1] = tempVal;
+				}
+			}
 		}
-		listOfStdDivs = insertionSort(listOfStdDivs);
+		return rTests;
 	}
 	
 	private static void printTestSummary(RouletteTest test){
 			System.out.print("Standard Div: " + test.getStdDev() + ", Hottest: " + test.getHottestPocket() + " (" + test.getPocketCount(test.getHottestPocket()) + ")" 
 					+ ", Coldest: " + test.getColdestPocket() + " (" + test.getPocketCount(test.getColdestPocket()) + ")");
+			System.out.println("\n" + test);
 	
 	}
 	
@@ -53,19 +67,7 @@ public class RouletteTestDriver {
 		}
 	}
 	
-	public static double[] insertionSort(double[] nums){
-		double tempVal;
-		for(int i = 1; i < nums.length; i++){
-			for(int j = i; j > 0; j--){
-				if(nums[j] < nums[j-1]){
-					tempVal = nums[j];
-					nums[j] = nums[j-1];
-					nums[j] = tempVal;
-				}
-			}
-		}
-		return nums;
-	 }
+
 	
 	private static int getTestWithLowestStdDiv(RouletteTest[] rTest){
 		double startingStdDiv = rTest[0].getStdDev();

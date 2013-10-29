@@ -1,6 +1,15 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+/*
+ * RouletteTest class
+ * Author: Thomas Hocking
+ * CS 251
+ * Assignment #6.
+ * 
+ * RouletteTest class for simulating a Roulette wheel.
+ * Provides methods such as Standard Deviation, and Hottest/Coldest pocket value.
+ */
 
 public class RouletteTest {
 	private static final int NUM_POCKETS = 38;
@@ -69,33 +78,30 @@ public class RouletteTest {
 		double mean = getMean();
 		
 		for(int i = 0; i < pocketCount.length; i++){
-			accumulator+= Math.pow(pocketCount[i] - mean, 2);
+			accumulator+=Math.pow((pocketCount[i] - mean),2);
 		}
-		return Math.sqrt(accumulator/pocketCount.length);
-		//return Math.sqrt(Math.pow(accumulator, 2) / (numSpins-1));
+		
+		return Math.sqrt(accumulator/(this.numSpins-1));
 	}
-	
-	//pseudo mean
+
 	private double getMean(){
-		int acc = 0;
-		for (int i = 0; i < pocketCount.length; i++) acc += pocketCount[i];
-		return acc / pocketCount.length;
+			return this.numSpins / pocketCount.length;
 	}
 	
 	public String toString(){
 		String stringToReturn = "";
 		for(int i = 0; i < pocketCount.length; i++){
 			if(i%5==0){
-				stringToReturn+="\n\t";
+				stringToReturn+="\n";
 			}
 			
 			stringToReturn += " " + pocketCount[i];
 			
-			if(i==1||i==36){
-				stringToReturn+="\n";
-			}
+			//if(i==1||i==36){
+				//stringToReturn+="\n";
+			//}
 		}
-		return "[ " + stringToReturn + " ]";  
+		return "[ " + stringToReturn + "\n\t\t]";  
 	}
 	
 	 
