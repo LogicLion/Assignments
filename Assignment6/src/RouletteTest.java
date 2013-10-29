@@ -26,6 +26,10 @@ public class RouletteTest {
 		}
 	}
 	
+	public RouletteTest(){
+		this.pocketCount[0]=1;
+	}
+	
 	public void getNumSpins(int numOfSpins){
 		this.numSpins = numOfSpins;
 	}
@@ -74,10 +78,11 @@ public class RouletteTest {
 	}
 	
 	public double getStdDev(){
-		double accumulator = 0;
-		double mean = getMean();
-		
+		double summation = 0;
+		double stdDev = 0.0;
+		//double mean = getMean();
 		for(int i = 0; i < pocketCount.length; i++){
+<<<<<<< HEAD
 			accumulator+=Math.pow((pocketCount[i] - mean),2);
 		}
 		
@@ -86,6 +91,20 @@ public class RouletteTest {
 
 	private double getMean(){
 			return this.numSpins / pocketCount.length;
+=======
+			summation += Math.pow((pocketCount[i]-(this.numSpins/pocketCount.length)),2);
+		}
+		stdDev = Math.sqrt(summation/this.numSpins - 1);
+		return stdDev;
+	}
+	
+	public double getMean(){
+		double accumulator = 0.0;
+		for(int i = 0; i < pocketCount.length; i++){
+			accumulator += pocketCount[i];
+		}
+		return accumulator/pocketCount.length;
+>>>>>>> 29af66835aee90b23d49e0601e85b1ecfa871bad
 	}
 	
 	public String toString(){
