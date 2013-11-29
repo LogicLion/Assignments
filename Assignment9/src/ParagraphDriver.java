@@ -5,18 +5,30 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/*
+ * Driver for Assignment #9
+ * Tests Input of Paragraphs and formats them depending on styles.
+ * Author: Thomas Hocking.
+ */
 
 public class ParagraphDriver {
 	private static Scanner input = new Scanner(System.in);
 	private static ArrayList<ParaStyle> styleList = new ArrayList<ParaStyle>();
 	private static ArrayList<Paragraph> document = new ArrayList<Paragraph>();
+	private static ArrayList<String> nameOfParagraphs = new ArrayList<String>();
 	
 	public static void main(String[] args){
 		System.out.println("Welcome to the Document Formatter!");
 		styleList = readStyles(input);
 		//System.out.println(styleList);
 		document = buildDocument(input);
-		
+		System.out.print("Enter output file: ");
+		try {
+			formatDocument(input, new PrintWriter(input.nextLine()), styleList);
+		} catch (FileNotFoundException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+		System.out.println("Goodbye!");
 	}
 	
 	public static ArrayList<ParaStyle> readStyles(Scanner styleScanner){
@@ -31,12 +43,27 @@ public class ParagraphDriver {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: " + e.getMessage());
+		} catch (NumberFormatException e) {
+			System.out.println("Error: " + e.getMessage());
 		}
 		return styles;
 	}
 	
 	public static void formatDocument(Scanner docScanner, PrintWriter outputFileScanner, ArrayList<ParaStyle> styles){
+		boolean isDoneFormatting = false;
 		
+		while(!isDoneFormatting){
+			for(int i = 0; i < nameOfParagraphs.size(); i++){
+				for(int j = 0; j < styles.size(); j++){
+					if(nameOfParagraphs.get(i).equals(styles.get(j).getName())){
+						System.out.println(styles.get(j).getName() + " " + nameOfParagraphs.get(i));
+						outputFileScanner.println(document.get(i).format(styles.get(j)));
+					}
+				}
+			}
+			isDoneFormatting = true;
+		}
+		outputFileScanner.close();
 	}	
 	
 	public static ArrayList<Paragraph> buildDocument(Scanner docScanner){
@@ -48,10 +75,13 @@ public class ParagraphDriver {
 			while(docScanner.hasNextLine()){
 				String docLine = docScanner.nextLine();
 				if(docLine.substring(0,2).compareTo(".P") == 0){
+					docLine = docLine.substring(3, docLine.length());
+					nameOfParagraphs.add(docLine);
 					paragraphCount++;
 					document.add(new Paragraph());
+				}else{
+					document.get(paragraphCount-1).addWords(docLine);
 				}
-				document.get(paragraphCount-1).addWords(docLine);
 			}
 		}catch (FileNotFoundException e) {
 			System.out.println("Error: " + e.getMessage());
@@ -59,5 +89,4 @@ public class ParagraphDriver {
 		return document;
 	}
 	
-
 }

@@ -1,9 +1,12 @@
-
+/*
+ * Provides a class for inputting a style sheet to format a document.
+ * has getters for parts of the style sheet.
+ */
 public class ParaStyle {
 	private String name;
-	private int leftIndent;
-	private int lineLength;
-	private int firstLineAdjustment;
+	private int leftIndent; //indent of all lines.
+	private int lineLength; //max length of lines.
+	private int firstLineAdjustment; //can be neg + leftIndent
 	
 	
 	public ParaStyle(String name, int leftIndent, int lineLength, int firstLineAdjustment){
