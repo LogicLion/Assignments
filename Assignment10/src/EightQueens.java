@@ -1,12 +1,16 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 
 public class EightQueens extends JFrame {
 	private Square[][] board = new Square[8][8];
+	private JPanel boardOfSquares = new JPanel(new GridLayout(8,8));
+	private JPanel ctrlAndInfoPanel = new JPanel();
 	private int queenCount;
 	private int nWins;
 	private int nLosses;
@@ -14,21 +18,28 @@ public class EightQueens extends JFrame {
 	
 	public EightQueens(){
 		setTitle("Eight Queens");
-		setSize(600,400);
-		setLayout(new GridLayout(8,8));
+		setSize(800,600);
+		setLayout(new BorderLayout());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		createContents();
 		setVisible(true);
 	}
 	
 	private void createContents(){
+
 		//create board.
 		for(int i = 0; i < board.length; i++){
 			board[i] = new Square[board.length];
 			for(int j = 0; j < board.length; j++){
-				add(board[i][j] = new Square());
+				boardOfSquares.add(board[i][j] = new Square());
 			}
 		}
+		ctrlAndInfoPanel.setPreferredSize(new Dimension(200,600));
+		add(ctrlAndInfoPanel,BorderLayout.EAST);
+		add(boardOfSquares,BorderLayout.CENTER);
+	
+		
+		
 		
 	}
 	
