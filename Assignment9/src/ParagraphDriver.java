@@ -51,12 +51,10 @@ public class ParagraphDriver {
 	
 	public static void formatDocument(Scanner docScanner, PrintWriter outputFileScanner, ArrayList<ParaStyle> styles){
 		boolean isDoneFormatting = false;
-		
 		while(!isDoneFormatting){
 			for(int i = 0; i < nameOfParagraphs.size(); i++){
 				for(int j = 0; j < styles.size(); j++){
 					if(nameOfParagraphs.get(i).equals(styles.get(j).getName())){
-						System.out.println(styles.get(j).getName() + " " + nameOfParagraphs.get(i));
 						outputFileScanner.println(document.get(i).format(styles.get(j)));
 					}
 				}
@@ -68,7 +66,6 @@ public class ParagraphDriver {
 	
 	public static ArrayList<Paragraph> buildDocument(Scanner docScanner){
 		int paragraphCount = 0;
-	
 		System.out.print("Please enter in Document filename: ");
 		try {
 			docScanner = new Scanner(new FileReader(input.nextLine()));
